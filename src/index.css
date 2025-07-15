@@ -1,11 +1,187 @@
-/* index.css */
+/* General Styles for the Page */
 html, body, #root {
+  html, body, #root {
   height: 100%;
   margin: 0;
   padding: 0;
+  background: url('C:\qa-ai-project\public\images\Image.jpg') no-repeat center center fixed;
+  background-size: cover;
+  backdrop-filter: blur(8px);
+  font-family: 'Poppins', sans-serif;
+}
+}
+/* Overlay for background image */
+body {
+  position: relative;
 }
 
-body {
-  background: linear-gradient(135deg, #667eea, #764ba2);
-  font-family: sans-serif;
+body::before {
+  body::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: -1;
+  pointer-events: none;
+  backdrop-filter: none; /* Remove any blur on overlay */
+}
+}
+/* Upload Container Styling */
+.upload-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  width: 100%;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+/* Transparent Upload Box with Neon Borders */
+.upload-box {
+  background: rgba(0, 0, 0, 0.6); /* Dark semi-transparent background */
+  border-radius: 20px;
+  padding: 30px 25px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 8px 25px rgba(201, 124, 74, 0.6);
+  /* border: 2px solid #c97c4a; */
+  text-align: center;
+  backdrop-filter: blur(10px);
+  transition: box-shadow 0.3s ease, transform 0.3s ease; /* Smooth transition for hover effect */
+}
+
+.upload-box:hover {
+  box-shadow: 0 12px 40px rgba(201, 124, 74, 0.8);
+  transform: scale(1.05);
+}
+
+/* Title and Subtitle Styling */
+.title {
+  font-weight: 700;
+  color: #da8a45;
+  margin-bottom: 15px;
+}
+
+.subtitle {
+  color: #f1e1c6;
+  margin-bottom: 30px;
+}
+
+/* Styling for the Drag-and-Drop Area */
+.dropzone {
+  border-radius: 15px;
+  background: rgba(201, 124, 74, 0.1);
+  border: 2px dashed #c97c4a;
+  padding: 40px 20px;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.3s ease;
+  box-shadow: inset 0 0 5px rgba(201, 124, 74, 0.2), 0 0 10px rgba(201, 124, 74, 0.2);
+}
+
+.dropzone.active {
+  background: rgba(201, 124, 74, 0.2);
+  border-color: #d48d57;
+  box-shadow: 0 0 15px rgba(201, 124, 74, 0.3);
+}
+
+.dropzone-text {
+  color: #d48d57;
+}
+
+.dropzone.has-file {
+  border-color: #c97c4a;
+  background: rgba(201, 124, 74, 0.1);
+  box-shadow: 0 0 15px #c97c4a;
+}
+
+
+/* File Icon Styling */
+.icon-wrapper {
+  margin-bottom: 20px;
+  width: 70px;
+  height: 70px;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #c97c4a, #1c1c1c);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 5px 5px 12px rgba(201, 124, 74, 0.3), -5px -5px 12px rgba(201, 124, 74, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.dropzone:hover .icon-wrapper {
+  transform: scale(1.1);
+}
+
+.file-icon {
+  font-size: 40px !important;
+  color: white !important;
+}
+.button-wrapper {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.generate-button {
+  background: linear-gradient(135deg, #c97c4a, #a35a2e);
+  font-weight: 600;
+  padding: 12px 24px;
+  border-radius: 20px;
+  box-shadow: 0 8px 15px rgba(0, 255, 255, 0.3);
+  transition: all 0.3s ease;
+  border: none;
+  color: white;
+  font-size: 16px;
+}
+/* Hover effect for the button */
+.generate-button:hover:enabled {
+  box-shadow: 0 12px 20px rgba(165, 89, 38, 0.5);
+  transform: scale(1.05); /* Slight scaling on hover */
+  background: linear-gradient(135deg, #da8453, #bf6e3b); 
+
+.generate-button:disabled {
+  background-color: #bbb;
+  cursor: not-allowed;
+}
+}
+
+/* Linear Progress Bar Styling */
+.linear-progress {
+  margin-top: 20px;
+  height: 10px;
+  background-color: #f5e0b3; /* Light beige background color */
+}
+
+.linear-progress .MuiLinearProgress-bar {
+  background: linear-gradient(135deg, #c97c4a, #d48d57); /* Bronze gradient fill */
+}
+
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .upload-container {
+    padding: 10px;
+  }
+
+  .upload-box {
+    padding: 25px 15px;
+  }
+
+  .generate-button {
+    padding: 14px;
+    width: 100%;
+  }
+
+  .icon-wrapper {
+    width: 50px;
+    height: 50px;
+  }
+
+  .file-icon {
+    font-size: 35px;
+  }
 }
