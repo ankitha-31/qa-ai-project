@@ -1,5 +1,4 @@
 /* General Styles for the Page */
-html, body, #root {
   html, body, #root {
   height: 100%;
   margin: 0;
@@ -9,14 +8,12 @@ html, body, #root {
   backdrop-filter: blur(8px);
   font-family: 'Poppins', sans-serif;
 }
-}
 /* Overlay for background image */
 body {
   position: relative;
 }
 
 body::before {
-  body::before {
   content: '';
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
@@ -25,7 +22,7 @@ body::before {
   pointer-events: none;
   backdrop-filter: none; /* Remove any blur on overlay */
 }
-}
+
 /* Upload Container Styling */
 .upload-container {
   display: flex;
@@ -95,7 +92,6 @@ body::before {
   box-shadow: 0 0 15px #c97c4a;
 }
 
-
 /* File Icon Styling */
 .icon-wrapper {
   margin-bottom: 20px;
@@ -136,17 +132,21 @@ body::before {
   border: none;
   color: white;
   font-size: 16px;
+  cursor: pointer !important;
+  display: inline-block;
+  text-decoration: none;
 }
 /* Hover effect for the button */
-.generate-button:hover:enabled {
+.generate-button:hover:not(:disabled),
+a.generate-button:hover {
   box-shadow: 0 12px 20px rgba(165, 89, 38, 0.5);
-  transform: scale(1.05); /* Slight scaling on hover */
-  background: linear-gradient(135deg, #da8453, #bf6e3b); 
+  transform: scale(1.05);
+  background: linear-gradient(135deg, #da8453, #bf6e3b);
+}
 
 .generate-button:disabled {
   background-color: #bbb;
   cursor: not-allowed;
-}
 }
 
 /* Linear Progress Bar Styling */
@@ -185,3 +185,13 @@ body::before {
     font-size: 35px;
   }
 }
+a.generate-button {
+  display: inline-block;
+  text-decoration: none;
+  color: white;
+}
+
+
+
+
+
