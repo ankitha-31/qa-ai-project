@@ -1,14 +1,31 @@
-/* General Styles for the Page */
-  html, body, #root {
+/* Theme Variables */
+:root {
+  --primary: #c97c4a;
+  --primary-dark: #a35a2e;
+  --accent: #da8a45;
+  --hover: #d48d57;
+  --hover-dark: #bf6e3b;
+  --text-light: #f1e1c6;
+  --error: red;
+  --loader-orange: #ff8c00;
+}
+
+/* Global Reset & Background */
+* {
+  box-sizing: border-box;
+}
+
+html, body, #root {
   height: 100%;
   margin: 0;
   padding: 0;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  font-family: 'Poppins', sans-serif;
   background: url('C:\qa-ai-project\public\images\Image.jpg') no-repeat center center fixed;
   background-size: cover;
-  backdrop-filter: blur(8px);
-  font-family: 'Poppins', sans-serif;
 }
-/* Overlay for background image */
+
 body {
   position: relative;
 }
@@ -20,10 +37,9 @@ body::before {
   background: rgba(0, 0, 0, 0.6);
   z-index: -1;
   pointer-events: none;
-  backdrop-filter: none; /* Remove any blur on overlay */
 }
 
-/* Upload Container Styling */
+/* Upload Container */
 .upload-container {
   display: flex;
   justify-content: center;
@@ -31,20 +47,19 @@ body::before {
   min-height: 100vh;
   width: 100%;
   padding: 0 20px;
-  box-sizing: border-box;
 }
-/* Transparent Upload Box with Neon Borders */
+
+/* Upload Box */
 .upload-box {
-  background: rgba(0, 0, 0, 0.6); /* Dark semi-transparent background */
+  background: rgba(0, 0, 0, 0.6);
   border-radius: 20px;
   padding: 30px 25px;
   width: 100%;
   max-width: 400px;
   box-shadow: 0 8px 25px rgba(201, 124, 74, 0.6);
-  /* border: 2px solid #c97c4a; */
   text-align: center;
   backdrop-filter: blur(10px);
-  transition: box-shadow 0.3s ease, transform 0.3s ease; /* Smooth transition for hover effect */
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
 }
 
 .upload-box:hover {
@@ -52,23 +67,23 @@ body::before {
   transform: scale(1.05);
 }
 
-/* Title and Subtitle Styling */
+/* Typography */
 .title {
   font-weight: 700;
-  color: #da8a45;
+  color: var(--accent);
   margin-bottom: 15px;
 }
 
 .subtitle {
-  color: #f1e1c6;
+  color: var(--text-light);
   margin-bottom: 30px;
 }
 
-/* Styling for the Drag-and-Drop Area */
+/* Dropzone */
 .dropzone {
   border-radius: 15px;
   background: rgba(201, 124, 74, 0.1);
-  border: 2px dashed #c97c4a;
+  border: 2px dashed var(--primary);
   padding: 40px 20px;
   cursor: pointer;
   user-select: none;
@@ -78,21 +93,21 @@ body::before {
 
 .dropzone.active {
   background: rgba(201, 124, 74, 0.2);
-  border-color: #d48d57;
+  border-color: var(--hover);
   box-shadow: 0 0 15px rgba(201, 124, 74, 0.3);
 }
 
 .dropzone-text {
-  color: #d48d57;
+  color: var(--hover);
 }
 
 .dropzone.has-file {
-  border-color: #c97c4a;
+  border-color: var(--primary);
   background: rgba(201, 124, 74, 0.1);
-  box-shadow: 0 0 15px #c97c4a;
+  box-shadow: 0 0 15px var(--primary);
 }
 
-/* File Icon Styling */
+/* File Icon */
 .icon-wrapper {
   margin-bottom: 20px;
   width: 70px;
@@ -100,7 +115,7 @@ body::before {
   margin-left: auto;
   margin-right: auto;
   border-radius: 50%;
-  background: linear-gradient(145deg, #c97c4a, #1c1c1c);
+  background: linear-gradient(145deg, var(--primary), #1c1c1c);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -116,14 +131,19 @@ body::before {
   font-size: 40px !important;
   color: white !important;
 }
+
+/* Button */
 .button-wrapper {
-  margin-top: 20px;
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
+  gap: 16px;  /* Space between the buttons */
+  margin-top: 25px;
 }
 
 .generate-button {
-  background: linear-gradient(135deg, #c97c4a, #a35a2e);
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
   font-weight: 600;
   padding: 12px 24px;
   border-radius: 20px;
@@ -133,15 +153,15 @@ body::before {
   color: white;
   font-size: 16px;
   cursor: pointer !important;
-  display: inline-block;
-  text-decoration: none;
+  width: fit-content;
+  min-width: 180px; /* Optional: Adjust the min-width */
 }
-/* Hover effect for the button */
+
 .generate-button:hover:not(:disabled),
 a.generate-button:hover {
   box-shadow: 0 12px 20px rgba(165, 89, 38, 0.5);
   transform: scale(1.05);
-  background: linear-gradient(135deg, #da8453, #bf6e3b);
+  background: linear-gradient(135deg, var(--accent), var(--hover-dark));
 }
 
 .generate-button:disabled {
@@ -149,49 +169,74 @@ a.generate-button:hover {
   cursor: not-allowed;
 }
 
-/* Linear Progress Bar Styling */
-.linear-progress {
-  margin-top: 20px;
-  height: 10px;
-  background-color: #f5e0b3; /* Light beige background color */
+/* Loader Dots */
+.loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
 }
 
-.linear-progress .MuiLinearProgress-bar {
-  background: linear-gradient(135deg, #c97c4a, #d48d57); /* Bronze gradient fill */
+.dot {
+  width: 12px;
+  height: 12px;
+  background-color: var(--loader-orange);
+  border-radius: 50%;
+  animation: bounce 1.4s infinite ease-in-out both;
 }
 
+.dot:nth-child(1) { animation-delay: -0.32s; }
+.dot:nth-child(2) { animation-delay: -0.16s; }
 
-/* Mobile Responsiveness */
+@keyframes bounce {
+  0%, 80%, 100% { transform: scale(0); }
+  40% { transform: scale(1); }
+}
+
+/* Mobile */
 @media (max-width: 768px) {
   .upload-container {
     padding: 10px;
   }
-
   .upload-box {
     padding: 25px 15px;
   }
-
   .generate-button {
     padding: 14px;
     width: 100%;
   }
-
   .icon-wrapper {
     width: 50px;
     height: 50px;
   }
-
   .file-icon {
     font-size: 35px;
   }
 }
+
 a.generate-button {
-  display: inline-block;
   text-decoration: none;
   color: white;
 }
 
+.error-message {
+  color: var(--error);
+  padding: 12px 20px;
+  border-radius: 10px;
+  margin-top: 15px;
+  font-weight: 600;
+  text-align: center;
+  animation: fadeIn 0.5s ease-in-out;
+}
 
-
-
-
+/* Optional animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

@@ -1,42 +1,72 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { InsertDriveFile } from '@mui/icons-material';
 import { useDropzone } from 'react-dropzone';
-import { Button, Typography, CircularProgress, LinearProgress } from '@mui/material';
+import { Button, Typography } from '@mui/material';
+import './index.css';
 
 const FileUpload = () => {
   const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
   const [downloadUrl, setDownloadUrl] = useState(null);
+  const [errorMessage, setErrorMessage] = useState('');
 
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    onDrop: acceptedFiles => setFile(acceptedFiles[0]),
-    accept: {
-      'text/plain': ['.txt'],
-      'application/pdf': ['.pdf'],
-      'application/vnd.openxmlformats-officedocument.wordprocessingml.document': ['.docx'],
-    },
-    multiple: false,
-  });
+  // Auto-clear error message after 4 seconds
+  useEffect(() => {
+  if (errorMessage) {
+    const timer = setTimeout(() => {
+      setErrorMessage('');
+    }, 4000);
 
-  const handleUpload = () => {
-    if (!file) {
-      alert('Please choose a file to upload!');
-      return;
-    }
+    return () => clearTimeout(timer);
+  }
+}, [errorMessage]);
 
-    setLoading(true);
-    setDownloadUrl(null);
+const { getRootProps, getInputProps, isDragActive } = useDropzone({
+  onDrop: acceptedFiles => {
+    setErrorMessage(''); // Clear error message on new drop
+    setFile(acceptedFiles[0]); // Update the file state
+    setDownloadUrl(null); // Reset download URL when a new file is dropped
+  },
+  onDropRejected: () => {
+    setErrorMessage('Only .pdf and .docx files are allowed.');
+    setDownloadUrl(null); // Reset download URL if file is rejected
+  },
+  accept: {
+    'application/pdf': ['.pdf'],
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document': ['.docx']
+  },
+  multiple: false,
+});
 
-    setTimeout(() => {
-      const content = `This is generated content based on: ${file.name}`;
-      const blob = new Blob([content], { type: 'text/plain' });
-      const url = URL.createObjectURL(blob);
-      console.log('Generated download URL:', url);
+const handleUpload = () => {
+  if (!file) {
+    setErrorMessage('Please choose a file to upload!');
+    return;
+  }
 
-      setDownloadUrl(url);
-      setLoading(false);
-    }, 2000);
-  };
+  // File type validation (PDF or DOCX)
+  const validFileTypes = ['application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+  
+  if (!validFileTypes.includes(file.type)) {
+    setErrorMessage('Only .pdf and .docx files are allowed.');
+    setDownloadUrl(null);  // Reset download URL if file is invalid
+    return;
+  }
+
+  setLoading(true);
+  setDownloadUrl(null); // Clear any previous download URL
+  setErrorMessage('');  // Clear error message if file is valid
+
+  setTimeout(() => {
+    const content = `This is generated content based on: ${file.name}`;
+    const blob = new Blob([content], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    setDownloadUrl(url);  // Only set download URL after successful processing
+    setLoading(false);
+  }, 2000);
+};
+
+
 
   return (
     <main className="upload-container">
@@ -48,7 +78,13 @@ const FileUpload = () => {
           Select a file and click generate to process
         </Typography>
 
-        {/* Dropzone area */}
+        {/* Error message display */}
+        {errorMessage && (
+          <div className="error-message">
+            {errorMessage}
+          </div>
+        )}
+
         <div
           {...getRootProps()}
           className={`dropzone ${isDragActive ? 'active' : ''} ${file ? 'has-file' : ''}`}
@@ -63,41 +99,43 @@ const FileUpload = () => {
             {file ? file.name : 'Drag & Drop your file here or click to browse'}
           </Typography>
         </div>
-
+        
         <div className="button-wrapper">
-          <Button
-            variant="contained"
-            onClick={handleUpload}
-            disabled={loading}
-            className="generate-button"
-            aria-label="Generate Button"
-          >
-            {loading ? <CircularProgress size={24} color="inherit" /> : 'Generate'}
-          </Button>
-
-          {loading && <LinearProgress style={{ marginTop: '20px', width: '100%' }} />}
+  {!downloadUrl && (
+    <Button
+      variant="contained"
+      onClick={handleUpload}
+      disabled={loading}
+      className="generate-button"
+      aria-label="Generate Button"
+    >
+      {loading ? (
+        <div className="loader">
+          <div className="dot"></div>
+          <div className="dot"></div>
+          <div className="dot"></div>
         </div>
+      ) : (
+        'Generate'
+      )}
+    </Button>
+  )}
 
-        {downloadUrl && (
-          <div style={{ marginTop: '25px' }}>
-            <Button
-  component="a"
-  variant="contained"
-  href={downloadUrl}
-  download="generated-file.txt"
-  disableElevation
-  className="generate-button"
-  style={{ marginTop: '25px' }}
->
-  Download File
-</Button>
-
-
-          </div>
-        )}
-      </section>
-    </main>
-  );
+  {downloadUrl && (
+    <Button
+      component="a"
+      variant="contained"
+      href={downloadUrl}
+      download="generated-file.txt"
+      disableElevation
+      className="generate-button"
+    >
+      Download File
+    </Button>
+  )}
+    </div>
+  </section>
+</main>
+);
 };
-
 export default FileUpload;

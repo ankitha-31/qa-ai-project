@@ -1,14 +1,9 @@
-// App.js
 import React from 'react';
-import './App.css';
+import './index.css';
 import FileUpload from './FileUpload';
 
 function App() {
-  return (
-    <div className="App">
-      <FileUpload />  {/* Render the FileUpload component */}
-    </div>
-  );
+  return <FileUpload />;
 }
 
 export default App;
