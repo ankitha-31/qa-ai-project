@@ -66,9 +66,14 @@ const handleUpload = () => {
   }, 2000);
 };
 
+// Reset the file upload state after downloading the file
+  const handleDownload = () => {
+    setFile(null);  // Reset the file
+    setDownloadUrl(null);  // Reset the download URL
+    setErrorMessage('');  // Clear any error message
+  };
 
-
-  return (
+return (
     <main className="upload-container">
       <section className="upload-box">
         <Typography variant="h4" className="title">
@@ -129,6 +134,7 @@ const handleUpload = () => {
       download="generated-file.txt"
       disableElevation
       className="generate-button"
+      onClick={handleDownload}  // Add this line to reset after download
     >
       Download File
     </Button>
